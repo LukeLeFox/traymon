@@ -1,0 +1,60 @@
+name: Nightly Build (Windows EXE)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build EXE (PyInstaller)
+        run: |
+          pyinstaller --onefile --noconsole --name traymon TrayMon.py
+
+      - name: Prepare portable zip
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path out | Out-Null
+          Copy-Item "dist\traymon.exe" "out\"
+          Copy-Item "config.json" "out\"
+          if (Test-Path "LibreHardwareMonitor.exe") { Copy-Item "LibreHardwareMonitor.exe" "out\" }
+          Compress-Archive -Path out\* -DestinationPath traymon-Portable.zip -Force
+
+      # (Opzionale) Artifact anche nella run (comodo per debug)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: traymon-Portable
+          path: traymon-Portable.zip
+
+      - name: Publish/Update GitHub Release "nightly"
+        uses: ncipollo/release-action@v1
+        with:
+          tag: nightly
+          name: "Nightly build"
+          body: |
+            Build automatica aggiornata ad ogni push su main.
+            Contiene: traymon.exe + config.json (+ LibreHardwareMonitor.exe se presente).
+          prerelease: true
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: "traymon-Portable.zip"
