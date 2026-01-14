@@ -25,19 +25,19 @@ jobs:
 
       - name: Build EXE (PyInstaller)
         run: |
-          pyinstaller --onefile --noconsole --name TrayPerfMon trayperfmon.py
+          pyinstaller --onefile --noconsole --name traymon traymon.py
 
       - name: Prepare portable folder
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path out | Out-Null
-          Copy-Item dist\TrayPerfMon.exe out\
+          Copy-Item dist\traymon.exe out\
           Copy-Item config.json out\
           if (Test-Path LibreHardwareMonitor.exe) { Copy-Item LibreHardwareMonitor.exe out\ }
-          Compress-Archive -Path out\* -DestinationPath TrayPerfMon-Portable.zip -Force
+          Compress-Archive -Path out\* -DestinationPath traymon-Portable.zip -Force
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: TrayPerfMon-Portable
-          path: TrayPerfMon-Portable.zip
+          name: traymon-Portable
+          path: traymon-Portable.zip
