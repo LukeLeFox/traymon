@@ -65,16 +65,16 @@ wmi
 Minimo:
 
 ```text
-TrayPerfMon/
-├─ trayperfmon.py
+TrayMon/
+├─ TrayMon.py
 ├─ config.json
 ```
 
 Con temperature/GPU:
 
 ```text
-TrayPerfMon/
-├─ trayperfmon.py
+TrayMon/
+├─ TrayMon.py
 ├─ config.json
 └─ LibreHardwareMonitor.exe
 ```
@@ -188,8 +188,8 @@ Il parser supporta anche commenti `#` e `//` su singola riga.
 
 ## LibreHardwareMonitor: come usarlo
 
-1. Scarica LibreHardwareMonitor (release) e copia **`LibreHardwareMonitor.exe`** nella stessa cartella di `trayperfmon.py`.
-2. Avvia TrayPerfMon.
+1. Scarica LibreHardwareMonitor (release) e copia **`LibreHardwareMonitor.exe`** nella stessa cartella di `TrayMon.py`.
+2. Avvia TrayMon.
 3. Se WMI + LHM sono ok, vedrai temperature CPU e dati GPU (se abilitati in config).
 
 Se LHM non è presente o WMI non funziona:
@@ -206,13 +206,13 @@ pip install pyinstaller
 
 ### 2) Build (onefile)
 ```powershell
-pyinstaller --onefile --noconsole --name TrayPerfMon trayperfmon.py
+pyinstaller --onefile --noconsole --name TrayMon TrayMon.py
 ```
 
 Output:
 ```text
 dist/
-└─ TrayPerfMon.exe
+└─ TrayMon.exe
 ```
 
 ### 3) Distribuzione consigliata
@@ -221,8 +221,8 @@ Onefile va bene, però ricorda che `config.json` deve stare accanto all’EXE pe
 Cartella finale consigliata:
 
 ```text
-TrayPerfMon-Portable/
-├─ TrayPerfMon.exe
+TrayMon-Portable/
+├─ TrayMon.exe
 ├─ config.json
 └─ LibreHardwareMonitor.exe   (opzionale, per temperature/GPU)
 ```
