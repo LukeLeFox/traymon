@@ -21,23 +21,25 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install psutil pystray Pillow wmi pyinstaller
+          pip install -r requirements.txt
 
       - name: Build EXE (PyInstaller)
         run: |
-          pyinstaller --onefile --noconsole --name TrayMon TrayMon.py
+          pyinstaller --onefile --noconsole --name traymon TrayMon.py
 
       - name: Prepare portable folder
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path out | Out-Null
-          Copy-Item dist\TrayMon.exe out\
-          Copy-Item config.json out\
-          if (Test-Path LibreHardwareMonitor.exe) { Copy-Item LibreHardwareMonitor.exe out\ }
-          Compress-Archive -Path out\* -DestinationPath TrayMon-Portable.zip -Force
+          Copy-Item "dist\traymon.exe" "out\"
+          Copy-Item "config.json" "out\"
+          if (Test-Path "LibreHardwareMonitor.exe") {
+            Copy-Item "LibreHardwareMonitor.exe" "out\"
+          }
+          Compress-Archive -Path out\* -DestinationPath traymon-Portable.zip -Force
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: TrayMon-Portable
-          path: TrayMon-Portable.zip
+          name: traymon-Portable
+          path: traymon-Portable.zip
