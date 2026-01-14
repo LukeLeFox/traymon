@@ -1,0 +1,26 @@
+{
+  "refresh_s": 1.0,
+  "show_cpu": true,
+  "show_ram": true,
+  "show_disk": false,
+  "show_net": false,
+  "net_ifaces": [
+    "auto"
+  ],
+  "net_mode": "aggregate",
+  "show_temps": true,
+  "show_cpu_temp": true,
+  "show_gpu": false,
+  "show_gpu_load": true,
+  "show_gpu_temp": true,
+  "overlay_enabled": true,
+  "overlay_format": "{cpu}\n{ram}\n{net}\n{disk}\n{gpu}",
+  "overlay_clickthrough": true,
+  "tooltip_lines": 6,
+  "overlay_locked": false,
+  "overlay_bg": "#400040",
+  "overlay_fg": "#ffffff",
+  "overlay_x": null,
+  "overlay_y": null,
+  "overlay_pos": "bottom_right"
+}
